@@ -13,7 +13,7 @@
       <pubDate>Thu, 01 Apr 2021 19:19:00 +0800</pubDate>
       
       <guid>https://fatjing.github.io/posts/vim-registers-killring/</guid>
-      <description>&lt;p&gt;The so called &amp;lsquo;kill ring&amp;rsquo; is that the content you kill (delete or yank) in an editor will be stored in a stack like place. Later you could  cycle through the items in the stack by pressing shortcuts without worrying about losing the text you killed previously.&lt;/p&gt;
+      <description>&lt;p&gt;The so called &amp;lsquo;kill ring&amp;rsquo; is that the content you kill (delete or yank) in an editor will be stored in a stack like place. Later you could cycle through the items in the stack by pressing shortcuts without worrying about losing the text you killed previously.&lt;/p&gt;
 &lt;p&gt;There&amp;rsquo;re a lot plugins for vim to mimic this behavior, like yankstack.vim, yankring.vim. Unfortunately, these plugins change too much of vim&amp;rsquo;s default behavior and often conflict with many other plugins.&lt;/p&gt;
 &lt;p&gt;So I did a little research to see if I could achieve this function with vim&amp;rsquo;s built-in features, and it turns out vim&amp;rsquo;s register could fulfill my need easily.&lt;/p&gt;</description>
     </item>
