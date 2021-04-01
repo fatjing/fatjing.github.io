@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Encapsule Element UI Table | Personal Archive</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="">
+<meta name="generator" content="Hugo 0.82.0" />
+
+
+  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+
+
+
+
+  
+    <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Personal Archive" />
+    <link href="/index.xml" rel="feed" type="application/rss+xml" title="Personal Archive" />
+  
+
+
+
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>Home</a>
+	
+	<a href="/posts">Archive</a>
+	<a href="/tags">Tags</a>
+	<a href="/about">About</a>
+
+	
+
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+    <h1 class="title">Encapsule Element UI Table</h1>
+
+    <div class="tip">
+        <span>
+          Mar 31, 2021 23:07
+        </span>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          
+            466 words
+          
+        </span>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          3 minute read
+        </span>
+    </div>
+
+    <div class="content">
+      <h1 id="封装element-ui的table">封装Element-UI的Table <a href="#%e5%b0%81%e8%a3%85element-ui%e7%9a%84table" class="anchor">🔗</a></h1><p>在开发后台管理系统时，一个常见的页面布局是：上面一堆过滤搜索条件，下面一个表格显示搜索结果。</p>
+<p>而这个表格通常要满足几点需求：</p>
+<ol>
+<li>表头可以显示图标</li>
+<li>带复选框</li>
+<li>每行行尾有操作按钮如删除、修改</li>
+<li>分页</li>
+</ol>
+<p>在之前的项目里，我直接用Element-UI提供的组件，开发起来比较繁琐。尤其是团队其他人参与进来，每个人实现的风格可能不大一致，后期维护起来也比较痛苦。</p>
+<p>而且新的项目里多了这样一个需求：用户可以配置显示哪些列。也就是说列不是写死的，是动态的。原来的模式不能满足。</p>
+<p>因此在新的项目里我对表格功能进行了封装，这样在使用表格时配置一下Column和数据来源就可以了。而且团队其他人用的风格也一致了。</p>
+<p>下面记录一下我是如何封装的。</p>
+<h3 id="组件">组件 <a href="#%e7%bb%84%e4%bb%b6" class="anchor">🔗</a></h3><p>main.vue</p>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#062873;font-weight:bold">template</span>&gt;
+  &lt;<span style="color:#062873;font-weight:bold">div</span>&gt;
+    <span style="color:#60a0b0;font-style:italic">&lt;!--</span>
+      父组件没有在$props中声明的属性和方法会通过$attrs<span style="">、</span>$listeners直接传递下去<span style="">，</span>这两个属性在封装透明的组件时特别有用
+      这里的重点是把外面传进来的column数组通过自定义的ElColumn组件渲染成实际的el<span style="color:#666">-</span>table<span style="color:#666">-</span>column
+    <span style="color:#666">--&gt;</span>
+    &lt;<span style="color:#062873;font-weight:bold">el-table</span>
+      <span style="color:#062873;font-weight:bold">:key</span><span style="color:#4070a0">=&#34;key&#34;</span>
+      <span style="color:#4070a0">ref</span><span style="color:#666">=</span><span style="color:#4070a0">&#34;elTable&#34;</span>
+      <span style="color:#062873;font-weight:bold">v-loading</span><span style="color:#4070a0">=&#34;$attrs.loading&#34;
+</span><span style="color:#4070a0">      v-bind=&#34;$attrs&#34;
+</span><span style="color:#4070a0">      v-on=&#34;$listeners&#34;
+</span><span style="color:#4070a0">      :data=&#34;data&#34;&gt;
+</span><span style="color:#4070a0">      &lt;ElColumn v-for=&#34;(col, index) in column&#34; :key=&#34;index&#34; </span><span style="color:#062873;font-weight:bold">:column</span><span style="color:#4070a0">=&#34;col&#34;</span>&gt;&lt;/<span style="color:#062873;font-weight:bold">ElColumn</span>&gt;
+    <span style="">&lt;/</span><span style="color:#4070a0">el</span><span style="color:#062873;font-weight:bold">-table</span>&gt;
+    <span style="color:#60a0b0;font-style:italic">&lt;!--</span>
+      由于$attrs给上面用了<span style="">，</span>这里用一个pagination的object来接收属性<span style="">，</span>避免冲突
+    <span style="color:#666">--&gt;</span>
+    &lt;<span style="color:#062873;font-weight:bold">el-pagination</span>
+      <span style="color:#062873;font-weight:bold">v-if</span><span style="color:#4070a0">=&#34;pagination&#34;
+</span><span style="color:#4070a0">      v-bind=&#34;pagination&#34;
+</span><span style="color:#4070a0">      v-on=&#34;$listeners&#34;
+</span><span style="color:#4070a0">      @current-change=&#34;handleCurrentPageChange&#34;
+</span><span style="color:#4070a0">      @size-change=&#34;handleSizeChange&#34;
+</span><span style="color:#4070a0">      :current-page.sync=&#34;currentPage&#34;
+</span><span style="color:#4070a0">      :page-size.sync=&#34;pageSize&#34;
+</span><span style="color:#4070a0">      :total=&#34;total&#34;
+</span><span style="color:#4070a0">      :layout=&#34;pagination.layout || &#39;total, prev, pager, next, jumper&#39;&#34;
+</span><span style="color:#4070a0">      :style=&#34;{&#39;margin-top&#39;: pagination.top || &#39;3px&#39;, &#39;text-align&#39;: pagination.align || &#39;center&#39;}&#34;</span>&gt;
+    <span style="">&lt;/</span><span style="color:#4070a0">el</span><span style="color:#062873;font-weight:bold">-pagination</span>&gt;
+  &lt;/<span style="color:#062873;font-weight:bold">div</span>&gt;
+&lt;/<span style="color:#062873;font-weight:bold">template</span>&gt;
+
+&lt;<span style="color:#062873;font-weight:bold">script</span>&gt;
+<span style="color:#007020;font-weight:bold">import</span> ElColumn from <span style="color:#4070a0">&#39;./column.vue&#39;</span>
+<span style="color:#007020;font-weight:bold">export</span> <span style="color:#007020;font-weight:bold">default</span> {
+  name<span style="color:#666">:</span> <span style="color:#4070a0">&#39;ElTableWrap&#39;</span>,
+  components<span style="color:#666">:</span> {
+    ElColumn
+  },
+  props<span style="color:#666">:</span> {
+    column<span style="color:#666">:</span> <span style="color:#007020">Array</span>,
+    data<span style="color:#666">:</span> <span style="color:#007020">Array</span>,
+    getData<span style="color:#666">:</span> <span style="color:#007020">Function</span>,
+    isGetDataOnCreate<span style="color:#666">:</span> { type<span style="color:#666">:</span> <span style="color:#007020">Boolean</span>, <span style="color:#007020;font-weight:bold">default</span><span style="color:#666">:</span> <span style="color:#007020;font-weight:bold">true</span> },
+    pagination<span style="color:#666">:</span> { type<span style="color:#666">:</span> <span style="color:#007020">Object</span>, <span style="color:#007020;font-weight:bold">default</span><span style="color:#666">:</span> <span style="color:#007020;font-weight:bold">null</span> }
+  },
+  data() {
+    <span style="color:#007020;font-weight:bold">return</span> {
+      key<span style="color:#666">:</span> <span style="color:#40a070">1</span>,
+      currentPage<span style="color:#666">:</span> <span style="color:#40a070">1</span>,
+      pageSize<span style="color:#666">:</span> (<span style="color:#007020;font-weight:bold">this</span>.pagination <span style="color:#666">&amp;&amp;</span> <span style="color:#007020;font-weight:bold">this</span>.pagination.pageSize) <span style="color:#666">||</span> <span style="color:#40a070">10</span>,
+      total<span style="color:#666">:</span> <span style="color:#40a070">0</span>
+    }
+  },
+  created() {
+    <span style="color:#007020;font-weight:bold">if</span> (<span style="color:#007020;font-weight:bold">this</span>.isGetDataOnCreate <span style="color:#666">&amp;&amp;</span> <span style="color:#007020;font-weight:bold">this</span>.getData) <span style="color:#007020;font-weight:bold">this</span>.getTableData()
+  },
+  methods<span style="color:#666">:</span> {
+    <span style="color:#60a0b0;font-style:italic">// 有时候父节点宽度改变时，表格没有自适应，重新渲染一下
+</span><span style="color:#60a0b0;font-style:italic"></span>    reRenderTable() {
+      <span style="color:#007020;font-weight:bold">this</span>.key <span style="color:#666">+=</span> <span style="color:#40a070">1</span>
+      <span style="color:#007020;font-weight:bold">this</span>.$refs.elTable.doLayout()
+    },
+    <span style="color:#60a0b0;font-style:italic">// 查询后台获取某一页的数据
+</span><span style="color:#60a0b0;font-style:italic"></span>    getTableData(page_num, page_size) {
+      <span style="color:#007020;font-weight:bold">this</span>.currentPage <span style="color:#666">=</span> page_num <span style="color:#666">||</span> <span style="color:#40a070">1</span>
+      <span style="color:#007020;font-weight:bold">if</span> (page_size) <span style="color:#007020;font-weight:bold">this</span>.pageSize <span style="color:#666">=</span> page_size
+      <span style="color:#007020;font-weight:bold">this</span>.$emit(<span style="color:#4070a0">&#39;update:loading&#39;</span>, <span style="color:#007020;font-weight:bold">true</span>)
+      <span style="color:#007020;font-weight:bold">this</span>.getData(<span style="color:#007020;font-weight:bold">this</span>.currentPage, <span style="color:#007020;font-weight:bold">this</span>.pageSize).then(res =&gt; {
+        <span style="color:#007020;font-weight:bold">this</span>.$emit(<span style="color:#4070a0">&#39;update:loading&#39;</span>, <span style="color:#007020;font-weight:bold">false</span>)
+        <span style="color:#007020;font-weight:bold">if</span> (res.status) {
+          <span style="color:#007020;font-weight:bold">this</span>.total <span style="color:#666">=</span> res.total
+          <span style="color:#007020;font-weight:bold">this</span>.$emit(<span style="color:#4070a0">&#39;update:data&#39;</span>, res.data)
+        }
+      })
+    },
+    refreshCurrentPage() {
+      <span style="color:#007020;font-weight:bold">this</span>.getTableData(<span style="color:#007020;font-weight:bold">this</span>.currentPage)
+    },
+    handleCurrentPageChange(page_num) {
+      <span style="color:#007020;font-weight:bold">this</span>.getTableData(page_num)
+    },
+    handleSizeChange(page_size) {
+      <span style="color:#007020;font-weight:bold">this</span>.getTableData(<span style="color:#40a070">1</span>, page_size)
+    }
+  }
+}
+&lt;/<span style="color:#062873;font-weight:bold">script</span>&gt;
+</code></pre></div><p>column.vue</p>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#062873;font-weight:bold">template</span>&gt;
+  <span style="color:#60a0b0;font-style:italic">&lt;!--</span>
+    这个组件主要是把传进来的column渲染成真正需要的el<span style="color:#666">-</span>table<span style="color:#666">-</span>column
+    第一种情况是column包含了render函数<span style="">，</span>需要用expand<span style="color:#666">-</span>dom这个函数式组件把render函数渲染出来
+  <span style="color:#666">--&gt;</span>
+  &lt;<span style="color:#062873;font-weight:bold">el-table-column</span>
+    <span style="color:#062873;font-weight:bold">v-if</span><span style="color:#4070a0">=&#34;column.render || column.renderHeader&#34;
+</span><span style="color:#4070a0">    v-bind=&#34;column&#34;&gt;
+</span><span style="color:#4070a0">    &lt;template slot=&#34;header&#34; slot-scope=&#34;scope&#34;&gt;
+</span><span style="color:#4070a0">      &lt;expand-dom
+</span><span style="color:#4070a0">        v-if=&#34;column.renderHeader&#34;
+</span><span style="color:#4070a0">        :scope=&#34;scope&#34;
+</span><span style="color:#4070a0">        :render=&#34;column.renderHeader&#34;&gt;
+</span><span style="color:#4070a0">      &lt;/expand-dom&gt;
+</span><span style="color:#4070a0">      &lt;span v-else&gt;{{ scope.column.label }}&lt;/span&gt;
+</span><span style="color:#4070a0">    &lt;/template&gt;
+</span><span style="color:#4070a0">
+</span><span style="color:#4070a0">    &lt;template slot-scope=&#34;scope&#34;&gt;
+</span><span style="color:#4070a0">      &lt;expand-dom
+</span><span style="color:#4070a0">        v-if=&#34;column.render&#34;
+</span><span style="color:#4070a0">        :scope=&#34;scope&#34;
+</span><span style="color:#4070a0">        :render=&#34;column.render&#34;&gt;
+</span><span style="color:#4070a0">      &lt;/expand-dom&gt;
+</span><span style="color:#4070a0">      &lt;span v-else&gt;{{ scope.row[scope.column.property] }}&lt;/span&gt;
+</span><span style="color:#4070a0">    &lt;/template&gt;
+</span><span style="color:#4070a0">
+</span><span style="color:#4070a0">    &lt;!-- 这里渲染树形数据 --&gt;
+</span><span style="color:#4070a0">    &lt;template v-if=&#34;column.children&#34;&gt;
+</span><span style="color:#4070a0">      &lt;ElColumn v-for=&#34;(col, index) in column.children&#34; :key=&#34;index&#34; :column=&#34;col&#34;&gt;&lt;/ElColumn&gt;
+</span><span style="color:#4070a0">    &lt;/template&gt;
+</span><span style="color:#4070a0">  &lt;/el-table-column&gt;
+</span><span style="color:#4070a0">
+</span><span style="color:#4070a0">  &lt;!-- 另一种情况column里面没有包含render函数 --&gt;
+</span><span style="color:#4070a0">  &lt;el-table-column
+</span><span style="color:#4070a0">    v-else
+</span><span style="color:#4070a0">    v-bind=&#34;column&#34;&gt;
+</span><span style="color:#4070a0">    &lt;template v-if=&#34;column.children&#34;&gt;
+</span><span style="color:#4070a0">      &lt;ElColumn v-for=&#34;(col, index) in column.children&#34; :key=&#34;index&#34; </span><span style="color:#062873;font-weight:bold">:column</span><span style="color:#4070a0">=&#34;col&#34;</span>&gt;&lt;/<span style="color:#062873;font-weight:bold">ElColumn</span>&gt;
+    &lt;/<span style="color:#062873;font-weight:bold">template</span>&gt;
+  <span style="">&lt;/</span><span style="color:#4070a0">el</span><span style="color:#062873;font-weight:bold">-table-column</span>&gt;
+&lt;/<span style="color:#062873;font-weight:bold">template</span>&gt;
+
+&lt;<span style="color:#062873;font-weight:bold">script</span>&gt;
+<span style="color:#007020;font-weight:bold">export</span> <span style="color:#007020;font-weight:bold">default</span> {
+  name<span style="color:#666">:</span> <span style="color:#4070a0">&#39;ElColumn&#39;</span>,
+  components<span style="color:#666">:</span> {
+    <span style="color:#60a0b0;font-style:italic">// 这里定义了一个functonal component，把column里面的render函数渲染出来
+</span><span style="color:#60a0b0;font-style:italic"></span>    expandDom<span style="color:#666">:</span> {
+      functional<span style="color:#666">:</span> <span style="color:#007020;font-weight:bold">true</span>,
+      props<span style="color:#666">:</span> {
+        scope<span style="color:#666">:</span> <span style="color:#007020">Object</span>,
+        render<span style="color:#666">:</span> <span style="color:#007020">Function</span>
+      },
+      render(h, context) {
+        <span style="color:#007020;font-weight:bold">return</span> context.props.render(h, context.props.scope)
+      }
+    }
+  },
+  props<span style="color:#666">:</span> {
+    column<span style="color:#666">:</span> <span style="color:#007020">Object</span>
+  }
+}
+&lt;/<span style="color:#062873;font-weight:bold">script</span>&gt;
+</code></pre></div><h3 id="用法">用法 <a href="#%e7%94%a8%e6%b3%95" class="anchor">🔗</a></h3><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#062873;font-weight:bold">template</span>&gt;
+  &lt;<span style="color:#062873;font-weight:bold">ElTableWrap</span>
+    <span style="color:#4070a0">ref</span><span style="color:#666">=</span><span style="color:#4070a0">&#34;table&#34;</span>
+    <span style="color:#4070a0">size</span><span style="color:#666">=</span><span style="color:#4070a0">&#34;mini&#34;</span>
+    <span style="color:#062873;font-weight:bold">:loading.sync</span><span style="color:#4070a0">=&#34;isLoadingTableData&#34;</span>
+    <span style="color:#062873;font-weight:bold">:column</span><span style="color:#4070a0">=&#34;column&#34;</span>
+    <span style="color:#062873;font-weight:bold">:data.sync</span><span style="color:#4070a0">=&#34;tableData&#34;</span>
+    <span style="color:#062873;font-weight:bold">:get-data</span><span style="color:#4070a0">=&#34;getTableData&#34;</span>
+    <span style="color:#062873;font-weight:bold">:pagination</span><span style="color:#4070a0">=&#34;pagination&#34;</span>
+    <span style="color:#4070a0">highlight</span><span style="color:#062873;font-weight:bold">-current-row</span>
+    <span style="color:#062873;font-weight:bold">@select</span><span style="color:#4070a0">=&#34;onSelect&#34;</span>
+    <span style="color:#062873;font-weight:bold">@select-all</span><span style="color:#4070a0">=&#34;onSelect&#34;</span>&gt;
+  &lt;/<span style="color:#062873;font-weight:bold">ElTableWrap</span>&gt;
+&lt;/<span style="color:#062873;font-weight:bold">template</span>&gt;
+&lt;<span style="color:#062873;font-weight:bold">script</span>&gt;
+<span style="color:#007020;font-weight:bold">import</span> getData from <span style="color:#4070a0">&#39;somewhere&#39;</span>
+<span style="color:#007020;font-weight:bold">import</span> ElTableWrap from <span style="color:#4070a0">&#39;./main.vue&#39;</span>
+<span style="color:#007020;font-weight:bold">export</span> <span style="color:#007020;font-weight:bold">default</span> {
+  name<span style="color:#666">:</span> <span style="color:#4070a0">&#39;Test&#39;</span>,
+  components<span style="color:#666">:</span> {
+    ElTableWrap
+  },
+  data() {
+    <span style="color:#007020;font-weight:bold">return</span> {
+      isLoadingTableData<span style="color:#666">:</span> <span style="color:#007020;font-weight:bold">false</span>,
+      tableData<span style="color:#666">:</span> [],
+      tableColumn<span style="color:#666">:</span> [
+        {type<span style="color:#666">:</span> <span style="color:#4070a0">&#39;selection&#39;</span>, width<span style="color:#666">:</span> <span style="color:#40a070">40</span>},
+        {prop<span style="color:#666">:</span> <span style="color:#4070a0">&#39;foo&#39;</span>, label<span style="color:#666">:</span> <span style="color:#4070a0">&#39;Foo&#39;</span>, width<span style="color:#666">:</span> <span style="color:#40a070">70</span>, fixed<span style="color:#666">:</span> <span style="color:#007020;font-weight:bold">true</span>},
+        {prop<span style="color:#666">:</span> <span style="color:#4070a0">&#39;bar&#39;</span>, label<span style="color:#666">:</span> <span style="color:#4070a0">&#39;Bar&#39;</span>, width<span style="color:#666">:</span> <span style="color:#40a070">70</span>, formatter<span style="color:#666">:</span> <span style="color:#007020;font-weight:bold">this</span>.formatBar},
+        {width<span style="color:#666">:</span> <span style="color:#40a070">100</span>, renderHeader<span style="color:#666">:</span> <span style="color:#007020;font-weight:bold">this</span>.renderHeader, render<span style="color:#666">:</span> <span style="color:#007020;font-weight:bold">this</span>.render, fixed<span style="color:#666">:</span> <span style="color:#4070a0">&#39;right&#39;</span>}
+      ],
+      selection<span style="color:#666">:</span> [],
+      pagination<span style="color:#666">:</span> {
+        pageSize<span style="color:#666">:</span> <span style="color:#40a070">20</span>,
+        top<span style="color:#666">:</span> <span style="color:#4070a0">&#39;5px&#39;</span>
+      }
+    }
+  },
+  methods<span style="color:#666">:</span> {
+    getTableData(page_num, page_size) {
+      <span style="color:#007020;font-weight:bold">return</span> getData({page_num, page_size})
+    },
+    refreshTable() {
+      <span style="color:#007020;font-weight:bold">this</span>.$refs.table.getTableData()
+    },
+    refreshCurrentPage() {
+      <span style="color:#007020;font-weight:bold">this</span>.$refs.table.refreshCurrentPage()
+    },
+    onSelect(selection, row) {
+      <span style="color:#007020;font-weight:bold">this</span>.selection <span style="color:#666">=</span> selection
+    },
+    formatBar(row, column, cellValue, index) {
+      <span style="color:#007020;font-weight:bold">return</span> cellValue
+    },
+    renderHeader(h, scope) {
+      <span style="color:#007020;font-weight:bold">return</span> h(<span style="color:#4070a0">&#39;i&#39;</span>,
+        {
+          <span style="color:#007020;font-weight:bold">class</span><span style="color:#666">:</span> <span style="color:#4070a0">&#39;el-icon-menu&#39;</span>,
+          style<span style="color:#666">:</span> <span style="color:#4070a0">&#39;font-size: 18px; cursor: pointer;&#39;</span>,
+          on<span style="color:#666">:</span> { click<span style="color:#666">:</span> () =&gt; { console.log(<span style="color:#4070a0">&#39;header button clicked&#39;</span>) } }
+        }
+      )
+    },
+    render(h, scope) {
+      <span style="color:#007020;font-weight:bold">return</span> h(<span style="color:#4070a0">&#39;el-button&#39;</span>,
+        {
+          on<span style="color:#666">:</span> { click<span style="color:#666">:</span> () =&gt; { console.log(<span style="color:#4070a0">&#39;clicked button on row: &#39;</span>, scope.row)} }
+        },
+        <span style="color:#4070a0">&#39;action&#39;</span>
+      )
+    }
+  }
+}
+&lt;/<span style="color:#062873;font-weight:bold">script</span>&gt;
+</code></pre></div><p>可以看到，只要把data里面的tableColumn配置好，引进获取数据的接口getData，就可以了。因为这个封装相对于里面的el-table差不多是透明的，更多用法只要查阅el-table的api，相应地设置props属性、tableColumn和监听事件即可。而分页相关的功能修改data里面的pagination对象即可。</p>
+<p>最后render函数也可以使用JSX替代手写。</p>
+<h3 id="总结">总结 <a href="#%e6%80%bb%e7%bb%93" class="anchor">🔗</a></h3><p>经过了简单的二次封装，我们可以通过配置数组生成需要的表格。满足了可以动态配置列的需求。也提升了团队的开发效率。</p>
+    </div>
+
+    
+    
+    
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <p class="copyright">
+    
+       © Copyright 
+       2021 
+       <span class="split">
+        <svg fill="#bbbbbb" width="15" height="15" version="1.1" id="heart-15" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 15 15">
+  <path d="M13.91,6.75c-1.17,2.25-4.3,5.31-6.07,6.94c-0.1903,0.1718-0.4797,0.1718-0.67,0C5.39,12.06,2.26,9,1.09,6.75&#xA;&#x9;C-1.48,1.8,5-1.5,7.5,3.45C10-1.5,16.48,1.8,13.91,6.75z"/>
+</svg>
+       </span>
+       
+    
+    </p>
+    <p class="powerby">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+  </body>
+</html>

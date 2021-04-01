@@ -33,6 +33,8 @@
   <body>
     <nav class="navigation">
 	
+		<a href="/"> <span class="arrow">←</span>Home</a>
+	
 	<a href="/posts">Archive</a>
 	<a href="/tags">Tags</a>
 	<a href="/about">About</a>
@@ -45,21 +47,29 @@
 
     <main class="main">
       
-<header class="profile">
-    
-        <img class="avatar" alt="avatar" src="/images/avatar.png" />
-    
 
-    <h1>Personal Archive</h1>
-    
-    
-</header>
+<div id="page-404">
+  <div class="text">
+      
+          <h1>404 - Page Not Found</h1>
+      
 
-<div id="list-page">
+      
+          <div>The content you're looking for doesn't seem to exist.</div>
+      
+    </div>
+  </div>
+
+  
+      <h2 class="read-more">Read More</h2> 
+  
+
+  
+
+
     
     
     
-        
         
         
         <section class="item">
@@ -67,15 +77,8 @@
             <h1 class="title"><a href='/posts/iframe-fit-to-content/'>Iframe Fit to Content</a></h1>   
             <div class="date">Apr 1, 2021</div>
           </div>
-
-          <div class="summary">根据iframe的内容调整其大小 🔗在做邮件预览的功能时，需要将邮件的HTML内容显示出来。一开始的做法是sanitized之后直接渲染出来。但是CSS样式要尽量保留，结果就是这些样式连外面不属于邮件的部分也影响了。
-于是把邮件的内容放到一个iframe里面去，隔离它的样式。而iframe一般要写死高度和宽度，这样如果邮件内容过长过宽，就会出现滚动条。理想的情况是根据iframe的内容调整其大小。
-这里记录一下我是怎么做的，直接上代码：
-</div>
-
         </section>
     
-        
         
         
         <section class="item">
@@ -83,21 +86,8 @@
             <h1 class="title"><a href='/posts/encapsule-element-ui-table/'>Encapsule Element UI Table</a></h1>   
             <div class="date">Mar 31, 2021</div>
           </div>
-
-          <div class="summary">封装Element-UI的Table 🔗在开发后台管理系统时，一个常见的页面布局是：上面一堆过滤搜索条件，下面一个表格显示搜索结果。
-而这个表格通常要满足几点需求：
- 表头可以显示图标 带复选框 每行行尾有操作按钮如删除、修改 分页  在之前的项目里，我直接用Element-UI提供的组件，开发起来比较繁琐。尤其是团队其他人参与进来，每个人实现的风格可能不大一致，后期维护起来也比较痛苦。
-而且新的项目里多了这样一个需求：用户可以配置显示哪些列。也就是说列不是写死的，是动态的。原来的模式不能满足。
-因此在新的项目里我对表格功能进行了封装，这样在使用表格时配置一下Column和数据来源就可以了。而且团队其他人用的风格也一致了。
-下面记录一下我是如何封装的。
-</div>
-
         </section>
     
-
-    
-
-
 </div>
 
     </main>
