@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>element-ui on Personal Archive</title>
+    <link>https://fatjing.github.io/tags/element-ui/</link>
+    <description>Recent content in element-ui on Personal Archive</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 31 Mar 2021 23:07:45 +0800</lastBuildDate><atom:link href="https://fatjing.github.io/tags/element-ui/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Encapsule Element UI Table</title>
+      <link>https://fatjing.github.io/posts/encapsule-element-ui-table/</link>
+      <pubDate>Wed, 31 Mar 2021 23:07:45 +0800</pubDate>
+      
+      <guid>https://fatjing.github.io/posts/encapsule-element-ui-table/</guid>
+      <description>&lt;h1 id=&#34;封装element-ui的table&#34;&gt;封装Element-UI的Table &lt;a href=&#34;#%e5%b0%81%e8%a3%85element-ui%e7%9a%84table&#34; class=&#34;anchor&#34;&gt;🔗&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;在开发后台管理系统时，一个常见的页面布局是：上面一堆过滤搜索条件，下面一个表格显示搜索结果。&lt;/p&gt;
+&lt;p&gt;而这个表格通常要满足几点需求：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;表头可以显示图标&lt;/li&gt;
+&lt;li&gt;带复选框&lt;/li&gt;
+&lt;li&gt;每行行尾有操作按钮如删除、修改&lt;/li&gt;
+&lt;li&gt;分页&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在之前的项目里，我直接用Element-UI提供的组件，开发起来比较繁琐。尤其是团队其他人参与进来，每个人实现的风格可能不大一致，后期维护起来也比较痛苦。&lt;/p&gt;
+&lt;p&gt;而且新的项目里多了这样一个需求：用户可以配置显示哪些列。也就是说列不是写死的，是动态的。原来的模式不能满足。&lt;/p&gt;
+&lt;p&gt;因此在新的项目里我对表格功能进行了封装，这样在使用表格时配置一下Column和数据来源就可以了。而且团队其他人用的风格也一致了。&lt;/p&gt;
+&lt;p&gt;下面记录一下我是如何封装的。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
