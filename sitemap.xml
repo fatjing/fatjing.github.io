@@ -2,19 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://fatjing.github.io/posts/iframe-fit-to-content/</loc>
-    <lastmod>2021-04-01T10:27:22+08:00</lastmod>
+    <loc>https://fatjing.github.io/tags/editor/</loc>
+    <lastmod>2021-04-01T19:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://fatjing.github.io/</loc>
+    <lastmod>2021-04-01T19:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://fatjing.github.io/posts/</loc>
+    <lastmod>2021-04-01T19:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://fatjing.github.io/tags/</loc>
+    <lastmod>2021-04-01T19:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://fatjing.github.io/posts/vim-registers-killring/</loc>
+    <lastmod>2021-04-01T19:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://fatjing.github.io/tags/vim/</loc>
+    <lastmod>2021-04-01T19:19:00+08:00</lastmod>
   </url><url>
     <loc>https://fatjing.github.io/tags/iframe/</loc>
     <lastmod>2021-04-01T10:27:22+08:00</lastmod>
   </url><url>
-    <loc>https://fatjing.github.io/</loc>
-    <lastmod>2021-04-01T10:27:22+08:00</lastmod>
-  </url><url>
-    <loc>https://fatjing.github.io/posts/</loc>
-    <lastmod>2021-04-01T10:27:22+08:00</lastmod>
-  </url><url>
-    <loc>https://fatjing.github.io/tags/</loc>
+    <loc>https://fatjing.github.io/posts/iframe-fit-to-content/</loc>
     <lastmod>2021-04-01T10:27:22+08:00</lastmod>
   </url><url>
     <loc>https://fatjing.github.io/tags/vue/</loc>
