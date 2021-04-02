@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Use Vim&#39;s registers to mimic killring | Personal Archive</title>
+    <title>Use Vim&#39;s Registers to Mimic Killring | Personal Archive</title>
 
     <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
@@ -49,7 +49,7 @@
       
 
 <section id="single">
-    <h1 class="title">Use Vim&#39;s registers to mimic killring</h1>
+    <h1 class="title">Use Vim&#39;s Registers to Mimic Killring</h1>
 
     <div class="tip">
         <span>
@@ -91,7 +91,7 @@
 </ul>
 <p>Vim fills the unnamed register <code>&quot;&quot;</code> with the text deleted or yanked regardless of whether or not a specific register is used (except the blackhole register). So the unnamed register almost always keeps the last killed text. And its content will be used for any put command if no register is specified. That&rsquo;s where the problem arises from.</p>
 <p>The numbered register <code>&quot;0</code> keeps the text from the most recently yank command, hence called yank register.</p>
-<p>The numbered register <code>&quot;1</code> keeps the text from the most recently delete or change command. But if the text deleted is less than one line, the small delete register <code>&quot;-</code> is used instead. After deleting successfully, Vim shifts the content of <code>&quot;1</code> to <code>&quot;2</code>, <code>&quot;2</code> to <code>&quot;3</code>, and so forth, and the content of <code>&quot;9</code> is lost.</p>
+<p>The numbered register <code>&quot;1</code> keeps the text from the most recently delete or change command. But if the text deleted is less than one line, the small delete register <code>&quot;-</code> is used instead. After deleting successfully, vim shifts the content of <code>&quot;1</code> to <code>&quot;2</code>, <code>&quot;2</code> to <code>&quot;3</code>, and so forth, and the content of <code>&quot;9</code> is lost.</p>
 <p>As for the delete registers, there&rsquo;s one interesting feature of the repeat (dot) command, such that it will increase the number of the register used. For example, first you do <code>&quot;1p</code>, if the content of register 1 is not what you want, you undo it by normal command <code>u</code>, then the following <code>.</code> (dot command) will act as <code>&quot;2p</code>. Repeat the <code>u.</code> will effectively cycle through register 1 to 9.</p>
 <h3 id="the-solution">The solution <a href="#the-solution" class="anchor">🔗</a></h3><p>With the aforementioned knowledge of vim registers, here&rsquo;s the solution I come up with to fit my workflow.</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="color:#007020;font-weight:bold">let</span> mapleader = <span style="color:#4070a0">&#34;\&lt;Space&gt;&#34;</span><span style="">
