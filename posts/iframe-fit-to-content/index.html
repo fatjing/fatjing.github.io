@@ -60,7 +60,7 @@
         </span>
         <span>
           
-            385 words
+            396 words
           
         </span>
         <span class="split">
@@ -163,6 +163,11 @@
         <span style="color:#007020;font-weight:bold">this</span>.setDocStyle()
         <span style="color:#007020;font-weight:bold">this</span>.setIframeHeight()
         <span style="color:#007020;font-weight:bold">this</span>.$emit(<span style="color:#4070a0">&#39;loaded&#39;</span>, <span style="color:#007020;font-weight:bold">this</span>.iframe.style.height)
+
+        <span style="color:#60a0b0;font-style:italic">// 设置iframe的高度可能会让父元素出现滚动条，反过来影响iframe内容的尺寸
+</span><span style="color:#60a0b0;font-style:italic"></span>        <span style="color:#60a0b0;font-style:italic">// 监听iframe contentWindow的resize事件重新计算内容高度
+</span><span style="color:#60a0b0;font-style:italic"></span>        <span style="color:#007020;font-weight:bold">let</span> iframe <span style="color:#666">=</span> <span style="color:#007020">document</span>.getElementById(<span style="color:#007020;font-weight:bold">this</span>.iframe_id)
+        iframe.contentWindow.addEventListener(<span style="color:#4070a0">&#39;resize&#39;</span>, <span style="color:#007020;font-weight:bold">this</span>.setIframeHeight)
       },
       setIframeHeight() {
         <span style="color:#007020;font-weight:bold">if</span> (<span style="color:#007020;font-weight:bold">this</span>.isHeightSet) {
