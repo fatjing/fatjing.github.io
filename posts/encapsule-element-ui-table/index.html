@@ -84,7 +84,7 @@
 <p>而且新的项目里多了这样一个需求：用户可以配置显示哪些列。也就是说列不是写死的，是动态的。原来的模式不能满足。</p>
 <p>因此在新的项目里我对表格功能进行了封装，这样在使用表格时配置一下Column和数据来源就可以了。而且团队其他人用的风格也一致了。</p>
 <p>下面记录一下我是如何封装的。</p>
-<h3 id="组件">组件 <a href="#%e7%bb%84%e4%bb%b6" class="anchor">🔗</a></h3><p>main.vue</p>
+<h2 id="组件">组件 <a href="#%e7%bb%84%e4%bb%b6" class="anchor">🔗</a></h2><p>main.vue</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#062873;font-weight:bold">template</span>&gt;
   &lt;<span style="color:#062873;font-weight:bold">div</span>&gt;
     <span style="color:#60a0b0;font-style:italic">&lt;!--</span>
@@ -238,7 +238,7 @@
   }
 }
 &lt;/<span style="color:#062873;font-weight:bold">script</span>&gt;
-</code></pre></div><h3 id="用法">用法 <a href="#%e7%94%a8%e6%b3%95" class="anchor">🔗</a></h3><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#062873;font-weight:bold">template</span>&gt;
+</code></pre></div><h2 id="用法">用法 <a href="#%e7%94%a8%e6%b3%95" class="anchor">🔗</a></h2><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#062873;font-weight:bold">template</span>&gt;
   &lt;<span style="color:#062873;font-weight:bold">ElTableWrap</span>
     <span style="color:#4070a0">ref</span><span style="color:#666">=</span><span style="color:#4070a0">&#34;table&#34;</span>
     <span style="color:#4070a0">size</span><span style="color:#666">=</span><span style="color:#4070a0">&#34;mini&#34;</span>
@@ -315,7 +315,7 @@
 &lt;/<span style="color:#062873;font-weight:bold">script</span>&gt;
 </code></pre></div><p>可以看到，只要把data里面的tableColumn配置好，引进获取数据的接口getData，就可以了。因为这个封装相对于里面的el-table差不多是透明的，更多用法只要查阅el-table的api，相应地设置props属性、tableColumn和监听事件即可。而分页相关的功能修改data里面的pagination对象即可。</p>
 <p>最后render函数也可以使用JSX替代手写。</p>
-<h3 id="总结">总结 <a href="#%e6%80%bb%e7%bb%93" class="anchor">🔗</a></h3><p>经过了简单的二次封装，我们可以通过配置数组生成需要的表格。满足了可以动态配置列的需求。也提升了团队的开发效率。</p>
+<h2 id="总结">总结 <a href="#%e6%80%bb%e7%bb%93" class="anchor">🔗</a></h2><p>经过了简单的二次封装，我们可以通过配置数组生成需要的表格。满足了可以动态配置列的需求。也提升了团队的开发效率。</p>
     </div>
 
     

@@ -75,14 +75,14 @@
       <p>The so called &lsquo;kill ring&rsquo; is that the content you kill (delete or yank) in an editor will be stored in a stack like place. Later you could cycle through the items in the stack by pressing shortcuts without worrying about losing the text you killed previously.</p>
 <p>There&rsquo;re a lot plugins for vim to mimic this behavior, like yankstack.vim, yankring.vim. Unfortunately, these plugins change too much of vim&rsquo;s default behavior and often conflict with many other plugins.</p>
 <p>So I did a little research to see if I could achieve this function with vim&rsquo;s built-in features, and it turns out vim&rsquo;s register could fulfill my need easily.</p>
-<h3 id="the-problem">The problem <a href="#the-problem" class="anchor">🔗</a></h3><p>A common editing scenario for me in vim is:</p>
+<h2 id="the-problem">The problem <a href="#the-problem" class="anchor">🔗</a></h2><p>A common editing scenario for me in vim is:</p>
 <ol>
 <li>yank something</li>
 <li>go to where I&rsquo;d like to paste it</li>
 <li>delete what&rsquo;s there</li>
 <li>paste what I thought was just yanked and find that the text deleted in step 3 was pasted instead</li>
 </ol>
-<h3 id="vims-registers">Vim&rsquo;s registers <a href="#vims-registers" class="anchor">🔗</a></h3><p>There&rsquo;re several types of registers in vim. Those worth mentioning are:</p>
+<h2 id="vims-registers">Vim&rsquo;s registers <a href="#vims-registers" class="anchor">🔗</a></h2><p>There&rsquo;re several types of registers in vim. Those worth mentioning are:</p>
 <ul>
 <li>The unnamed register <code>&quot;&quot;</code></li>
 <li>The yank register <code>&quot;0</code></li>
@@ -93,7 +93,7 @@
 <p>The numbered register <code>&quot;0</code> keeps the text from the most recently yank command, hence called yank register.</p>
 <p>The numbered register <code>&quot;1</code> keeps the text from the most recently delete or change command. But if the text deleted is less than one line, the small delete register <code>&quot;-</code> is used instead. After deleting successfully, vim shifts the content of <code>&quot;1</code> to <code>&quot;2</code>, <code>&quot;2</code> to <code>&quot;3</code>, and so forth, and the content of <code>&quot;9</code> is lost.</p>
 <p>As for the delete registers, there&rsquo;s one interesting feature of the repeat (dot) command, such that it will increase the number of the register used. For example, first you do <code>&quot;1p</code>, if the content of register 1 is not what you want, you undo it by normal command <code>u</code>, then the following <code>.</code> (dot command) will act as <code>&quot;2p</code>. Repeat the <code>u.</code> will effectively cycle through register 1 to 9.</p>
-<h3 id="the-solution">The solution <a href="#the-solution" class="anchor">🔗</a></h3><p>With the aforementioned knowledge of vim registers, here&rsquo;s the solution I come up with to fit my workflow.</p>
+<h2 id="the-solution">The solution <a href="#the-solution" class="anchor">🔗</a></h2><p>With the aforementioned knowledge of vim registers, here&rsquo;s the solution I come up with to fit my workflow.</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="color:#007020;font-weight:bold">let</span> mapleader = <span style="color:#4070a0">&#34;\&lt;Space&gt;&#34;</span><span style="">
 </span><span style="">
 </span><span style=""></span>nnoremap &lt;Leader&gt;<span style="color:#40a070">0</span> <span style="color:#60a0b0;font-style:italic">&#34;0p</span><span style="">
@@ -106,7 +106,7 @@
 <li>press <code>&lt;Space&gt;0</code> to paste the text yanked in step 1</li>
 </ol>
 <p>And the extra bonus mapping <code>&lt;Leader&gt;1</code> is for cycling through register 1 to 9 easily by first doing <code>&lt;Leader&gt;1</code> and then doing <code>u.</code> repeatedly.</p>
-<h3 id="conclusion">Conclusion <a href="#conclusion" class="anchor">🔗</a></h3><p>That&rsquo;s it, with vim&rsquo;s registers we could get what &lsquo;killring&rsquo; brings us, though not perfectly, enough for my workflow.</p>
+<h2 id="conclusion">Conclusion <a href="#conclusion" class="anchor">🔗</a></h2><p>That&rsquo;s it, with vim&rsquo;s registers we could get what &lsquo;killring&rsquo; brings us, though not perfectly, enough for my workflow.</p>
 <p>For more information, please read vim&rsquo;s help files!</p>
 <p><code>:h registers</code></p>
 <p><code>:h redo-register</code></p>
