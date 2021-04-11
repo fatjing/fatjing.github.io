@@ -1,88 +1,120 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <title>Use Vim&#39;s Registers to Mimic Killring | Personal Archive</title>
+<html lang="en">
 
-    <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
-<meta name="viewport" content="width=device-width,minimum-scale=1">
-<meta name="description" content="">
+<head>
+    
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 <meta name="generator" content="Hugo 0.82.0" />
 
 
-  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
-
-
-<link rel="stylesheet" href="/css/style.css">
-<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/dsrkafuu/dsr-cdn@1/images/favicons/dsrca/favicon.ico" />
 
 
 
+<title>Use Vim&#39;s Registers to Mimic Killring - My Blog</title>
 
 
+
+
+<meta name="keywords" content="vim, editor" />
+
+
+<meta property="og:title" content="Use Vim&#39;s Registers to Mimic Killring" />
+<meta name="twitter:title" content="Use Vim&#39;s Registers to Mimic Killring" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fatjing.github.io/posts/vim-registers-killring/" /><meta property="og:description" content="The so called &lsquo;kill ring&rsquo; is that the content you kill (delete or yank) in an editor will be stored in a stack like place. Later you could cycle through the items in the stack by pressing shortcuts without worrying about losing the text you killed previously.
+There&rsquo;re a lot plugins for vim to mimic this behavior, like yankstack.vim, yankring.vim. Unfortunately, these plugins change too much of vim&rsquo;s default behavior and often conflict with many other plugins.
+So I did a little research to see if I could achieve this function with vim&rsquo;s built-in features, and it turns out vim&rsquo;s register could fulfill my need easily." />
+<meta name="twitter:description" content="The so called &lsquo;kill ring&rsquo; is that the content you kill (delete or yank) in an editor will be stored in a stack like place. Later you could cycle through the items in the stack by pressing shortcuts without worrying about losing the text you killed previously.
+There&rsquo;re a lot plugins for vim to mimic this behavior, like yankstack.vim, yankring.vim. Unfortunately, these plugins change too much of vim&rsquo;s default behavior and often conflict with many other plugins.
+So I did a little research to see if I could achieve this function with vim&rsquo;s built-in features, and it turns out vim&rsquo;s register could fulfill my need easily." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-04-01T19:19:00+08:00" /><meta property="article:modified_time" content="2021-04-01T19:19:00+08:00" />
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(60%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(60%);
+    }
+</style>
+
+
+
+<link rel="stylesheet" href="https://fatjing.github.io/assets/css/fuji.min.css" />
+
+
+
+
+
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
   
-    <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Personal Archive" />
-    <link href="/index.xml" rel="feed" type="application/rss+xml" title="Personal Archive" />
+  var fujiThemeData = localStorage.getItem('fuji_data-theme');
   
-
-
-
-
-  </head>
-
-  <body>
-    <nav class="navigation">
-	
-		<a href="/"> <span class="arrow">←</span>Home</a>
-	
-	<a href="/posts">Archive</a>
-	<a href="/tags">Tags</a>
-	<a href="/about">About</a>
-
-	
-
-	
-</nav>
-
-
-    <main class="main">
-      
-
-<section id="single">
-    <h1 class="title">Use Vim&#39;s Registers to Mimic Killring</h1>
-
-    <div class="tip">
-        <span>
-          Apr 1, 2021 19:19
-        </span>
-        <span class="split">
-          ·
-        </span>
-        <span>
-          
-            490 words
-          
-        </span>
-        <span class="split">
-          ·
-        </span>
-        <span>
-          3 minute read
-        </span>
+  if (!fujiThemeData) {
+    localStorage.setItem('fuji_data-theme', 'auto');
+  } else {
+    
+    if (fujiThemeData !== 'auto') {
+      document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+    }
+  }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://fatjing.github.io/">My Blog</a>
+            
+            <span class="title-sub">Personal archive</span>
+            
+        </div>
     </div>
+</header>
 
-    <div class="content">
-      <p>The so called &lsquo;kill ring&rsquo; is that the content you kill (delete or yank) in an editor will be stored in a stack like place. Later you could cycle through the items in the stack by pressing shortcuts without worrying about losing the text you killed previously.</p>
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://fatjing.github.io/posts/vim-registers-killring/">Use Vim&#39;s Registers to Mimic Killring</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021-04-01</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;490 words</span>
+<span><i class="iconfont icon-time-sharp"></i>&nbsp;3 minutes</span>
+<span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/vim">vim</a>&nbsp;<a href="/tags/editor">editor</a>&nbsp;</span>
+
+    </div>
+    
+    <div class="post-content markdown-body">
+        <p>The so called &lsquo;kill ring&rsquo; is that the content you kill (delete or yank) in an editor will be stored in a stack like place. Later you could cycle through the items in the stack by pressing shortcuts without worrying about losing the text you killed previously.</p>
 <p>There&rsquo;re a lot plugins for vim to mimic this behavior, like yankstack.vim, yankring.vim. Unfortunately, these plugins change too much of vim&rsquo;s default behavior and often conflict with many other plugins.</p>
 <p>So I did a little research to see if I could achieve this function with vim&rsquo;s built-in features, and it turns out vim&rsquo;s register could fulfill my need easily.</p>
-<h1 id="the-problem">The problem <a href="#the-problem" class="anchor">🔗</a></h1><p>A common editing scenario for me in vim is:</p>
+<h2 id="the-problem">The problem</h2>
+<p>A common editing scenario for me in vim is:</p>
 <ol>
 <li>yank something</li>
 <li>go to where I&rsquo;d like to paste it</li>
 <li>delete what&rsquo;s there</li>
 <li>paste what I thought was just yanked and find that the text deleted in step 3 was pasted instead</li>
 </ol>
-<h1 id="vims-registers">Vim&rsquo;s registers <a href="#vims-registers" class="anchor">🔗</a></h1><p>There&rsquo;re several types of registers in vim. Those worth mentioning are:</p>
+<h2 id="vims-registers">Vim&rsquo;s registers</h2>
+<p>There&rsquo;re several types of registers in vim. Those worth mentioning are:</p>
 <ul>
 <li>The unnamed register <code>&quot;&quot;</code></li>
 <li>The yank register <code>&quot;0</code></li>
@@ -93,7 +125,8 @@
 <p>The numbered register <code>&quot;0</code> keeps the text from the most recently yank command, hence called yank register.</p>
 <p>The numbered register <code>&quot;1</code> keeps the text from the most recently delete or change command. But if the text deleted is less than one line, the small delete register <code>&quot;-</code> is used instead. After deleting successfully, vim shifts the content of <code>&quot;1</code> to <code>&quot;2</code>, <code>&quot;2</code> to <code>&quot;3</code>, and so forth, and the content of <code>&quot;9</code> is lost.</p>
 <p>As for the delete registers, there&rsquo;s one interesting feature of the repeat (dot) command, such that it will increase the number of the register used. For example, first you do <code>&quot;1p</code>, if the content of register 1 is not what you want, you undo it by normal command <code>u</code>, then the following <code>.</code> (dot command) will act as <code>&quot;2p</code>. Repeat the <code>u.</code> will effectively cycle through register 1 to 9.</p>
-<h1 id="the-solution">The solution <a href="#the-solution" class="anchor">🔗</a></h1><p>With the aforementioned knowledge of vim registers, here&rsquo;s the solution I came up with to fit my workflow.</p>
+<h2 id="the-solution">The solution</h2>
+<p>With the aforementioned knowledge of vim registers, here&rsquo;s the solution I came up with to fit my workflow.</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="color:#007020;font-weight:bold">let</span> mapleader = <span style="color:#4070a0">&#34;\&lt;Space&gt;&#34;</span><span style="">
 </span><span style="">
 </span><span style=""></span>nnoremap &lt;Leader&gt;<span style="color:#40a070">0</span> <span style="color:#60a0b0;font-style:italic">&#34;0p</span><span style="">
@@ -106,73 +139,211 @@
 <li>press <code>&lt;Space&gt;0</code> to paste the text yanked in step 1</li>
 </ol>
 <p>And the extra bonus mapping <code>&lt;Leader&gt;1</code> is for cycling through register 1 to 9 easily by first doing <code>&lt;Leader&gt;1</code> and then doing <code>u.</code> repeatedly.</p>
-<h1 id="conclusion">Conclusion <a href="#conclusion" class="anchor">🔗</a></h1><p>That&rsquo;s it, with vim&rsquo;s registers we could get what &lsquo;killring&rsquo; brings us, though not perfectly, enough for my workflow.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>That&rsquo;s it, with vim&rsquo;s registers we could get what &lsquo;killring&rsquo; brings us, though not perfectly, enough for my workflow.</p>
 <p>For more information, please read vim&rsquo;s help files!</p>
 <p><code>:h registers</code></p>
 <p><code>:h redo-register</code></p>
     </div>
+</article>
 
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
     
-        <div class="tags">
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
             
-                <a href="https://fatjing.github.io/tags/vim">vim</a>
+            <li>
+                <a href="/">Home</a>
+            </li>
             
-                <a href="https://fatjing.github.io/tags/editor">editor</a>
+            <li>
+                <a href="/archives/">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+            <li>
+                <a href="/search/">Search</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="https://github.com/fatjing" target="_blank"><span>GitHub</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/editor/">editor</a>
+            </span>
+            
+            <span>
+                <a href="/tags/element-ui/">element-ui</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iframe/">iframe</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vim/">vim</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vue/">vue</a>
+            </span>
             
         </div>
-    
-    
-    
-
-</section>
-
-
-    </main>
-    
-    <footer id="footer">
-    
-        <div id="social">
-
-
-    <a class="symbol" href="https://github.com/fatjing" target="_blank">
-        
-        <svg fill="#bbbbbb" width="28" height="28"  viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    
-    <title>Github</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Social-Icons---Rounded-Black" transform="translate(-264.000000, -939.000000)">
-            <g id="Github" transform="translate(264.000000, 939.000000)">
-                <path d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,-8.11624501e-16 64,0 L8,0 C3.581722,8.11624501e-16 -5.41083001e-16,3.581722 0,8 L0,64 C5.41083001e-16,68.418278 3.581722,72 8,72 Z" id="Rounded" fill="#bbbbbb"></path>
-                <path d="M35.9985,13 C22.746,13 12,23.7870921 12,37.096644 C12,47.7406712 18.876,56.7718301 28.4145,59.9584121 C29.6145,60.1797862 30.0525,59.4358488 30.0525,58.7973276 C30.0525,58.2250681 30.0315,56.7100863 30.0195,54.6996482 C23.343,56.1558981 21.9345,51.4693938 21.9345,51.4693938 C20.844,48.6864054 19.2705,47.9454799 19.2705,47.9454799 C17.091,46.4500754 19.4355,46.4801943 19.4355,46.4801943 C21.843,46.6503662 23.1105,48.9634994 23.1105,48.9634994 C25.2525,52.6455377 28.728,51.5823398 30.096,50.9649018 C30.3135,49.4077535 30.9345,48.3460615 31.62,47.7436831 C26.2905,47.1352808 20.688,45.0691228 20.688,35.8361671 C20.688,33.2052792 21.6225,31.0547881 23.1585,29.3696344 C22.911,28.7597262 22.0875,26.3110578 23.3925,22.9934585 C23.3925,22.9934585 25.4085,22.3459017 29.9925,25.4632101 C31.908,24.9285993 33.96,24.6620468 36.0015,24.6515052 C38.04,24.6620468 40.0935,24.9285993 42.0105,25.4632101 C46.5915,22.3459017 48.603,22.9934585 48.603,22.9934585 C49.9125,26.3110578 49.089,28.7597262 48.8415,29.3696344 C50.3805,31.0547881 51.309,33.2052792 51.309,35.8361671 C51.309,45.0917119 45.6975,47.1292571 40.3515,47.7256117 C41.2125,48.4695491 41.9805,49.9393525 41.9805,52.1877301 C41.9805,55.4089489 41.9505,58.0067059 41.9505,58.7973276 C41.9505,59.4418726 42.3825,60.1918338 43.6005,59.9554002 C53.13,56.7627944 60,47.7376593 60,37.096644 C60,23.7870921 49.254,13 35.9985,13" fill="#FFFFFF"></path>
-            </g>
-        </g>
-    </g>
-</svg>
-    </a>
-
-
+    </div>
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of Contents</h3><nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#vims-registers">Vim&rsquo;s registers</a></li>
+    <li><a href="#the-solution">The solution</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav></div>
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-menu" id="btn-menu">
+        <i class="iconfont icon-grid-sharp"></i>
+    </div>
+    <div class="btn-toggle-mode">
+        <i class="iconfont icon-contrast-sharp"></i>
+    </div>
+    <div class="btn-scroll-top">
+        <i class="iconfont icon-chevron-up-circle-sharp"></i>
+    </div>
 </div>
+<aside class="sidebar-mobile" style="display: none;">
+  <div class="sidebar-wrapper">
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+            <li>
+                <a href="/search/">Search</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="https://github.com/fatjing" target="_blank"><span>GitHub</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/editor/">editor</a>
+            </span>
+            
+            <span>
+                <a href="/tags/element-ui/">element-ui</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iframe/">iframe</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vim/">vim</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vue/">vue</a>
+            </span>
+            
+        </div>
+    </div>
+    
+    
+    
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of Contents</h3>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#vims-registers">Vim&rsquo;s registers</a></li>
+    <li><a href="#the-solution">The solution</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+    
+    
+  </div>
+</aside>
+    </main>
 
-    
-
-    <p class="copyright">
-    
-       © Copyright 
-       2021 
-       <span class="split">
-        <svg fill="#bbbbbb" width="15" height="15" version="1.1" id="heart-15" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 15 15">
-  <path d="M13.91,6.75c-1.17,2.25-4.3,5.31-6.07,6.94c-0.1903,0.1718-0.4797,0.1718-0.67,0C5.39,12.06,2.26,9,1.09,6.75&#xA;&#x9;C-1.48,1.8,5-1.5,7.5,3.45C10-1.5,16.48,1.8,13.91,6.75z"/>
-</svg>
-       </span>
-       
-    
-    </p>
-    <p class="powerby">
-        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
-    </p>
+    <footer>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            
+            <span>&copy; 2021
+                <a href="https://fatjing.github.io/"></a>
+                
+                | Powered by <a href="https://github.com/dsrkafuu/hugo-theme-fuji/"
+                   target="_blank">Fuji-v2</a> &amp; <a href="https://gohugo.io/"
+                                                    target="_blank">Hugo</a> 
+            </span>
+        </div>
+    </div>
 </footer>
 
-  </body>
+    
+<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+
+</body>
+
 </html>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>iframe on Personal Archive</title>
+    <title>iframe on My Blog</title>
     <link>https://fatjing.github.io/tags/iframe/</link>
-    <description>Recent content in iframe on Personal Archive</description>
+    <description>Recent content in iframe on My Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 01 Apr 2021 10:27:22 +0800</lastBuildDate><atom:link href="https://fatjing.github.io/tags/iframe/index.xml" rel="self" type="application/rss+xml" />
@@ -13,7 +13,8 @@
       <pubDate>Thu, 01 Apr 2021 10:27:22 +0800</pubDate>
       
       <guid>https://fatjing.github.io/posts/iframe-fit-to-content/</guid>
-      <description>&lt;h1 id=&#34;根据iframe的内容调整其大小&#34;&gt;根据iframe的内容调整其大小 &lt;a href=&#34;#%e6%a0%b9%e6%8d%aeiframe%e7%9a%84%e5%86%85%e5%ae%b9%e8%b0%83%e6%95%b4%e5%85%b6%e5%a4%a7%e5%b0%8f&#34; class=&#34;anchor&#34;&gt;🔗&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;在做邮件预览的功能时，需要将邮件的HTML内容显示出来。一开始的做法是sanitized之后直接渲染出来。但是CSS样式要尽量保留，结果就是这些样式连外面不属于邮件的部分也影响了。&lt;/p&gt;
+      <description>&lt;h4 id=&#34;根据iframe的内容调整其大小&#34;&gt;根据iframe的内容调整其大小&lt;/h4&gt;
+&lt;p&gt;在做邮件预览的功能时，需要将邮件的HTML内容显示出来。一开始的做法是sanitized之后直接渲染出来。但是CSS样式要尽量保留，结果就是这些样式连外面不属于邮件的部分也影响了。&lt;/p&gt;
 &lt;p&gt;于是把邮件的内容放到一个iframe里面去，隔离它的样式。而iframe一般要写死高度和宽度，这样如果邮件内容过长过宽，就会出现滚动条。理想的情况是根据iframe的内容调整其大小。&lt;/p&gt;
 &lt;p&gt;这里记录一下我是怎么做的，直接上代码：&lt;/p&gt;</description>
     </item>
